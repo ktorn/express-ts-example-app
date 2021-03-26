@@ -1,12 +1,14 @@
 import { Options } from '@mikro-orm/core';
-import { MongoHighlighter } from '@mikro-orm/mongo-highlighter';
+import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
+import { SqlHighlighter } from '@mikro-orm/sql-highlighter'
 import { Author, Book, BookTag, Publisher, BaseEntity } from './entities';
 
 const options: Options = {
-  type: 'mongo',
+  metadataProvider: TsMorphMetadataProvider,
+  type: 'postgresql',
+  clientUrl: 'postgres://postgres:postgres@localhost:5432/mikro-orm-express-ts',
   entities: [Author, Book, BookTag, Publisher, BaseEntity],
-  dbName: 'mikro-orm-express-ts',
-  highlighter: new MongoHighlighter(),
+  highlighter: new SqlHighlighter(),
   debug: true,
 };
 

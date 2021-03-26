@@ -22,6 +22,13 @@ const port = process.env.PORT || 3000;
   DI.bookRepository = DI.orm.em.getRepository(Book);
 
   app.use(express.json());
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Methods", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
+
+    next()
+  })
   app.use((req, res, next) => RequestContext.create(DI.orm.em, next));
   app.get('/', (req, res) => res.json({ message: 'Welcome to MikroORM express TS example, try CRUD on /author and /book endpoints!' }));
   app.use('/author', AuthorController);
